@@ -20,6 +20,8 @@ export default function Review() {
             <li><Input label='Enter your Email' type='text' htmlFor='email'/></li>
             <li><Input label='Enter your review here...' type='text' htmlFor='review'/></li>
             <li className='flex flex-row '><BiStar className='hover:fill-red-700 hover:text-red-700' /><BiStar className='hover:fill-red-700 hover:text-red-700' /><BiStar className='hover:fill-red-700 hover:text-red-700' /><BiStar className='hover:fill-red-700 hover:text-red-700' /><BiStar className='hover:fill-red-700 hover:text-red-700' /></li>
+            <li><button className='bg-black border text-white border-white  rounded-xl w-52 
+                                    hover:bg-red-700 hover:border-red-900 hover:text-white;'>Submit</button></li>
         </ol>
             
         </div>

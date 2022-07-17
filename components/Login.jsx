@@ -2,6 +2,11 @@ import React from 'react'
 import Signup from './Signup'
 import Link from 'next/link'
 import Input from './Input'
+import { useAuthContext } from '@/store/Context';
+import { signIn } from '@/lib/supabaseHelpers'
+
+import InputText from '@/modules/Form/InputText';
+import Layout from '@/modules/Layout/Layout';
 
 
 
