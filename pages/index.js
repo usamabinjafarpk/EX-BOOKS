@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useState } from "react"
 import Signup from "../components/Signup"
 import Main from "../components/Main"
+import Rating from "../components/RatingComponent"
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Header/>
       <Main/>
       <Footer/>
+     
       {/* <Login/> */}
       {/* <Signup/> */}
     </div>

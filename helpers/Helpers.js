@@ -1,4 +1,4 @@
-import { supabase } from "../../supabse";
+import { supabase } from "../supabase";
 
 // ------------------------------------------------------ auth ----------------------------------------------------
 export async function signUp({email, password, data}){
@@ -14,9 +14,15 @@ export async function signUp({email, password, data}){
 
     // create a public schema table for volunteers
     if(!error){
-        const date = new Date()
-        const volunteer = await supabase.from('volunteers').insert([{ 
-            id: user.id, created_at: date.toISOString(), name: data.name, group: null 
+        const volunteer = await supabase.from('buyers').insert([{ 
+            id: user.id, 
+            name: data.name, 
+            gender: data.gender,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            pincode: data.pincode
+
         }])
 
         if(volunteer.error){
@@ -43,5 +49,22 @@ export async function signIn({email, password}){
         user: user, 
         session: session, 
         error: error?.message
+    }
+}
+
+// --------------------------------------------------chats-----------------------------------------------------
+export async function getChatGroups(userId){
+    const volunteer = await supabase.from('volunteers').select('group').match({ id: userId })
+    if(!volunteer?.error && volunteer?.data[0]?.group !== null){
+        const chatGroups = await supabase.from('opportunities').select().in('id', volunteer?.data[0]?.group)
+        // console.log(chatGroups?.data);
+        return {
+            data: chatGroups?.data, 
+            error: chatGroups?.error
+        }
+    } else {
+        return {
+            error: true 
+        }
     }
 }

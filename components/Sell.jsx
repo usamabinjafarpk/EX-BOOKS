@@ -17,6 +17,7 @@ export default function Sell() {
         <Input label='About Book' type='text' htmlFor='Desc'/>
         Upload cover picture
         <Input label='' type='file' htmlFor='pic'/>
+       
         <button className='btn'>Submit</button>
             </div>
         

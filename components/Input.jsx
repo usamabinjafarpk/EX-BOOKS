@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md"
 
-export default function Input({label, htmlFor, type, error}) {
+export default function Input({label, htmlFor, type, error,register}) {
 
 
     const [inputType, setinputType] = useState(type)
@@ -22,7 +22,8 @@ export default function Input({label, htmlFor, type, error}) {
 
     return(
         <div className="flex flex-col space-y-4 relative text-zinc-900">
-            <input type={inputType} placeholder={label} className='bg-white  outline-none
+            <input type={inputType} placeholder={label} {...register(htmlFor, {required : 'This field is required'})}
+             className='bg-white  outline-none
                 rounded-xl py-2 px-4 w-52 h-8 placeholder-zinc-500'
                 />
             {showPassword && type =='password' ?

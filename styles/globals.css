@@ -15,3 +15,8 @@
         hover:bg-transparent hover:border-zinc-900 hover:text-white;
     }
 }
+
+select{
+    -webkit-appearence:none;
+    appearance: none;
+}
