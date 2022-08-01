@@ -6,6 +6,7 @@ import { useAuthContext } from '../store/Context'
 import {supabase} from '../supabase'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { FiMessageSquare } from 'react-icons/fi'
 
 export default function Header() {
 
@@ -20,29 +21,47 @@ const logout=async()=>{
 }
 
   return (
-    <div className="bg-slate-600 flex h-20 w-screen px-3 space-x-48 items-center position-fixed z-999">
+    <div className="sticky top-0 w-screen h-28 z-50 ">
+      <div className='flex justify-between items-center h-20  bg-slate-600 px-60'>
         <Link href='/'>
-        <img className="h-20 cursor-pointer " src="EX-BOOKS.jpg"/>
+          <img className="h-20 cursor-pointer " src="/EX-BOOKS.jpg"/>
         </Link>               
         <Search label="Find Books....." htmlFor="search"/>
-        <button className=' border border-black p-2 rounded-lg h-8 w-auto flex items-center '>CATEGORIES</button>
-        <Link href='/sell'>
 
-        <button className=''>Sell</button>
-        </Link>
-        <div>
-        {user ? <div>
-          <h2>Welcome {user?.user_metadata?.name}</h2>
-          <button                           onClick={logout}>Logout</button>
-          </div>: 
-        <Link href="/login">
+            <button onClick={()=>router.push('/request')}>Request a Book</button>
 
-       <button className="mr-12 ">LOGIN</button>
-        
-        </Link>}
+        {/* profile and sell button */}
+        <div className='flex space-x-4'>
+
+          <div className='flex items-center space-x-4'>
+            <FiMessageSquare className='w-8 h-8 text-white cursor-pointer' 
+              onClick={()=> router.push('chats')}/>
+            <Link href='/sell'>
+              <button className='bg-white rounded-full px-10 py-2 border-4 border-slate-900'>Sell</button>
+            </Link>
+          </div>
+          {user ?
+            <div className='flex space-x-2 items-center'>
+              <button className='bg-white rounded-full px-10 py-2 border-4 border-slate-900' onClick={logout}>Logout</button>
+              <div className='text-base bg-indigo-600 text-white ring ring-white font-bold uppercase rounded-full w-8 h-8 
+                flex justify-center items-center'>
+                {user?.user_metadata.name?.substring(0,2)}
+              </div> 
+            </div> 
+          : 
+            <Link href="/login">
+              <button className="mr-12 ">Login</button>
+            </Link>}
        </div>
+
+      </div>
+
+      <div className='flex justify-between items-center h-8 bg-slate-300'>
+
+      </div>
         
         
     </div>
   )
 }
+//aaa

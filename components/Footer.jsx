@@ -6,7 +6,7 @@ import {IoMdCall} from "react-icons/io"
 
 export default function Footer() {
   return (
-      <div className="w-min-screen item-center bg-slate-800 flex text-white space-x-7 justify-between z-index-1">
+      <div className=" h-32 w-screen absolute bottom-0 item-center bg-slate-800 flex text-white space-x-7 justify-between z-50">
         <div className='space-x-12'>
         <h1>ABOUT US</h1>
           <ul>

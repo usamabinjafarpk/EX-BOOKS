@@ -1,12 +1,10 @@
 import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 
-import { useAuthContext } from "../../../store/Context"
-import { getChatGroups } from "../../../helpers/Helpers"
+import { useAuthContext } from "../../store/Context"
+import { getChatGroups } from "../../helpers/Helpers"
 
-import MessageCard from "../../../components/Cards/MessageCard"
-
-import WithAuth from "../../../modules/Layout/WithAuth"
+import MessageCard from "../../components/Cards/MessageCard"
 
 export default function Chats() {
 
@@ -19,7 +17,7 @@ export default function Chats() {
 
 	useEffect(() => {
 	  const getData = async () => {
-		const chats = await getChatGroups(user?.id)
+		const chats = await getAllChats(user?.id)
 		chats?.data &&  setchatGroups(chats?.data)
 		chats?.error && seterror(true)
 	  }

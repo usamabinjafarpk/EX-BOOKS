@@ -4,8 +4,13 @@ import Header from './Header'
 import Input from './Input'
 import RatingComponent from '../components/RatingComponent'
 import { BiStar } from 'react-icons/bi'
+import { useForm } from 'react-hook-form';
+
 
 export default function Review() {
+
+  const { register, handleSubmit, formState: { errors } } = useForm()
+
   return (
     <div>
         <Header/>
@@ -18,8 +23,8 @@ export default function Review() {
         <ol className="flex flex-col justify-center items-center space-x-5 space-y-5">
             <li className='text-3xl'>   The Secret</li>
             <li>By:Rhonda Byrne</li>  
-            <li><Input label='Enter your Email' type='text' htmlFor='email'/></li>
-            <li><Input label='Enter your review here...' type='text' htmlFor='review'/></li>
+            <li><Input label='Enter your Email' type='text' htmlFor='email' register={register} error={errors.email}/></li>
+            <li><Input label='Enter your review here...' type='text' htmlFor='review' register={register} error={errors.review}/></li>
             <li className='border-emerald-50'><RatingComponent/></li>
             <li><button className='bg-black border text-white border-white  rounded-xl w-52 
                                     hover:bg-red-700 hover:border-red-900 hover:text-white;'>Submit</button></li>
