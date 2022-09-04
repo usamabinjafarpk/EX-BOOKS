@@ -36,12 +36,13 @@ export default function Signup() {
 
   return (
     <div>
-          <div className="bg-zinc-900 w-screen h-screen flex flex-col justify-center items-center">
+          <div style={{backgroundImage: 'url(login6.jpg)'}}  className=" w-screen h-screen flex flex-col justify-center items-center">
         {/* <img className="flex justify-start" src="EX-BOOKS.jpg"></img> */}
-        <form className="bg-zinc-800 border border-zinc-700 rounded-lg 
-         text-black  w-96 h-96 flex flex-col justify-center items-center
+        <form className="bg-transparent border border-white rounded-lg 
+         text-black  w-96 h-3/6 flex flex-col justify-center items-center
          space-y-3" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="text-xl">EX-BOOKS</h1>
+            <h1 className="text-white text-xl">EX-BOOKS</h1>
+            <h1 className="text-white text-2xl">Let's learn together</h1>
             <div className='flex flex-col space-y-2'>
             <Input label='Full Name' type='text' htmlFor='name' register={register}/>
 

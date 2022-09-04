@@ -7,7 +7,7 @@ import { BiStar } from 'react-icons/bi'
 import { useForm } from 'react-hook-form';
 
 
-export default function Review() {
+export default function Review({id, name, image, author}) {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -18,11 +18,11 @@ export default function Review() {
             BOOK DETAILS
         </div>
         <div className="flex justify-center items-center pt-10 ">
-        <div className="justify-content-center items-center flex border border-red-700 w-screen bg-lime-400 text-white ">
-        <img className='h-60' src="secret.jpg"></img>
+        <div className="justify-content-center items-center flex border border-red-700 w-96 bg-lime-400 text-black ">
+        <img className='h-60' src="https://wallpapercave.com/wp/wp6668685.jpg"/>
         <ol className="flex flex-col justify-center items-center space-x-5 space-y-5">
-            <li className='text-3xl'>   The Secret</li>
-            <li>By:Rhonda Byrne</li>  
+            <li className='text-3xl'> Rich Dad Poor Dad</li>
+            <li>By:Robert Kiyosaki</li>  
             <li><Input label='Enter your Email' type='text' htmlFor='email' register={register} error={errors.email}/></li>
             <li><Input label='Enter your review here...' type='text' htmlFor='review' register={register} error={errors.review}/></li>
             <li className='border-emerald-50'><RatingComponent/></li>

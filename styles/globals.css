@@ -13,6 +13,7 @@
     .btn{
         @apply bg-white border text-black border-white  rounded-xl w-52 
         hover:bg-transparent hover:border-zinc-900 hover:text-white;
+    
     }
 }
 

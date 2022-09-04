@@ -36,12 +36,15 @@ export default function Login() {
 
 
   return (
-    <div className="bg-zinc-900 w-screen h-screen flex flex-col justify-center items-center">
-        {/* <img className="flex justify-start" src="EX-BOOKS.jpg"></img> */}
-        <form className="bg-zinc-800 border border-zinc-700 rounded-lg 
+    <div>
+    {/* <img className='w-screen h-screen' src='login.jpg'></img> */}
+        
+          <div style={{backgroundImage: 'url(login6.jpg)'}} className="h-screen w-screen flex flex-col justify-center items-center">
+        <form className="bg-transparent border border-white rounded-lg 
          text-black  w-96 h-80 flex flex-col justify-center items-center
          space-y-3"onSubmit= {handleSubmit(onSubmit)}>
-            <h1 className="text-xl">EX-BOOKS</h1>
+            <h1 className="text-white text-2xl">EX-BOOKS</h1>
+            <h1 className="text-white text-2xl">Let's learn together</h1>
             <Input label='Email' type='text' htmlFor='email' register={register} error={errors['email']}/>
             <Input label='Password' type='password' htmlFor='password' register={register} error={errors['password']}/>
              <div className='flex flex-col space-y-2'>
@@ -49,9 +52,10 @@ export default function Login() {
                 <Link href="/signup">
                 <button className="btn">New user</button>
                 </Link>
-                <a className="text-right">Forgot Password?</a>
+                <a className="text-right text-white">Forgot Password?</a>
              </div>
         </form>
+    </div>
     </div>
   )
 }

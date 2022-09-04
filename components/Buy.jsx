@@ -1,6 +1,10 @@
+import { useState } from "react"
 
 
 export default function Buy() {
+    
+    const [state, setState] = useState('0')
+
     return (
         <div className='bg-slate-900 flex  items-start py-12'>
             <div className='flex flex-row justify-between p-24'>
@@ -16,7 +20,7 @@ export default function Buy() {
             </div>
 
         <div className='flex flex-col justify-center items-center p-24'>
-            <button className='btn '>Rs.300/.</button>
+            <button  className='btn '>Rs.0/</button>
         </div>
                     
             

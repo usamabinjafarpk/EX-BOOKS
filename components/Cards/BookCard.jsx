@@ -9,11 +9,15 @@ export default function BookCard({id, name, image, author}) {
         router.push(`/book/${id}`)
     }
 
+    const Route = ()=> {
+        router.push('/review')
+    }
+
 
     return (
       
            <div className='h-72 w-44 bg-gray-800 flex flex-col  justify-between rounded-xl'>
-                <img className="h-40  cursor-pointer flex justify-center items-center rounded-t-xl" src={image}/>
+                <img onClick={Route} className="h-40  cursor-pointer flex justify-center items-center rounded-t-xl" src={image}/>
                 <div className='flex flex-col px-2'>
                     <h5 className='text-base text-white font-bold'>{name}</h5>
                     <p className='text-white'>{author}</p>   

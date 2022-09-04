@@ -14,7 +14,7 @@ export async function signUp({email, password, data}){
 
     // create a public schema table for volunteers
     if(!error){
-        const volunteer = await supabase.from('buyers').insert([{ 
+        const volunteer = await supabase.from('users').insert([{ 
             id: user.id, 
             name: data.name, 
             gender: data.gender,
