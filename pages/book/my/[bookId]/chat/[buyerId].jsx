@@ -2,19 +2,15 @@ import { useState, useRef, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/router"
 
-import { createMessage, getMessage, getMessages, getUser } from "../../../helpers/Helpers" 
-import { useAuthContext } from "../../../store/Context" 
+import { createMessage, getMessages } from "../../../../../helpers/Helpers" 
 
 import { MdOutlineArrowBack, MdSend } from "react-icons/md"
 
-import WithAuth from "../../../modules/Layout/WithAuth" 
-import SingleMessageCard from "../../../components/Cards/SingleMessageCard" 
-import { supabase } from "../../../supabase"
+import SingleMessageCard from "../../../../../components/Cards/SingleMessageCard" 
+import { supabase } from "../../../../../supabase"
 
 
 export default function ChatPage() {
-
-	const { user } = useAuthContext()
 
     const router = useRouter()
 
@@ -22,61 +18,44 @@ export default function ChatPage() {
 
     const ref = useRef()
 
-    const [sellerDetails, setsellerDetails] = useState(null)
-
     const [messages, setmessages] = useState([])
-    const [newMessage, setnewMessage] = useState(null)
+    const [user, setuser] = useState(null)
     const [error, seterror] = useState(false)
-    const [ids, setids] = useState({
-        book: router?.query?.bookId,
-        buyer: router?.query?.buyer,
-        seller: router?.query?.seller,
-        from: router?.query?.buyer,
-        to: router?.query?.seller
-    })
-    
-
-    //get seller details
-    useEffect(() => {
-        getUser(router?.query?.seller, setsellerDetails)
-    }, [router.isReady])
     
 
     //get messages at initail loading
     const getData = async () => {
         const ids = {
             book: router?.query?.bookId,
-            buyer: router?.query?.buyer,
-            seller: router?.query?.seller,
+            buyer: router?.query?.buyerId,
         }
         await getMessages(ids, setmessages, seterror)
     }
     useEffect(() => {
-      getData()
+        router.isReady && getData()
     }, [router.isReady])
-    
+
+    useEffect(() => {
+        fetchUser()
+      }, [])
+      const fetchUser = async () => {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        setuser(user)
+      }
+      
     
     //get new messages without reloading
     useEffect(() => {
-        getData()
-        const messageListener = supabase.from("chats").on("INSERT", (payload) => 
-            setnewMessage(payload.new)
-        ).subscribe()
+        const myChannel = supabase.channel('*').on('postgres_changes', { event: '*', schema: 'public', table: 'chats' }, (payload) => {
+            getData()
+        }).subscribe()
+
         return () => {
-            supabase.removeSubscription(messageListener)
+            supabase.removeChannel(myChannel)
         }
-    },[])
-    
-    
-    useEffect(() => {
-        const ids = {
-            book: router?.query?.bookId,
-            buyer: router?.query?.buyer,
-            seller: router?.query?.seller,
-        }
-        getMessages(ids, setmessages, seterror)
-    }, [newMessage])
-    
+    }, [])
     
     
     //scroll down for new message
@@ -89,10 +68,8 @@ export default function ChatPage() {
     const onSubmit = async (data) => {
         const ids = {
             book: router?.query?.bookId,
-            buyer: router?.query?.buyer,
-            seller: router?.query?.seller,
-            from: router?.query?.buyer,
-            to: router?.query?.seller
+            buyer: router?.query?.buyerId,
+            sender: user?.id,
         }
         await createMessage(ids, data.message, seterror)
         reset()
@@ -102,19 +79,32 @@ export default function ChatPage() {
         router.push(`/book/${router.query.bookId}`)
     }
 
+    const makeADeal = async () => {
+        const deal = await supabase.from('books').update({buyer: router.query?.buyerId}).match({id: router.query.bookId})
+        !deal?.error && router.push('/') 
+    }
+
 
     return (
         <div className='flex flex-col bg-zinc-900 text-white relative min-h-screen'>
             
             {/* header */}
-            <div className='bg-zinc-800 flex items-center space-x-4 h-20 px-4 w-screen fixed top-0 z-50'>
-                <MdOutlineArrowBack className='w-8 h-8 text-white cursor-pointer' onClick={handleBackClick}/>
-                <div className='flex space-x-2'>
-                    <div className='w-12 h-12 bg-white rounded-full'/>
-                    <div className='flex flex-col justify-center items-center pl-1'>
-                        <h6>{sellerDetails?.name}</h6>
-                    </div> 
+            <div className="flex justify-between items-center h-20 px-4 w-screen fixed top-0 z-50 bg-zinc-800">
+                <div className='flex items-center space-x-4 '>
+                    <MdOutlineArrowBack className='w-8 h-8 text-white cursor-pointer' onClick={handleBackClick}/>
+                    
+                    <div className='flex space-x-2'>
+                        <div className='w-12 h-12 bg-white rounded-full flex justify-center items-center text-black text-xl'>
+                            {messages[0]?.buyer?.name?.substring(0,2).toUpperCase()}
+                        </div>
+                        <div className='flex flex-col justify-center items-center pl-1'>
+                            <h6>{messages[0]?.buyer?.name}</h6>
+                        </div> 
+                    </div>
                 </div>
+                <button className="bg-white px-6 py-2 rounded-xl text-black" onClick={makeADeal}>
+                    Make A Deal
+                </button>
             </div>
 
             {/* content */}
@@ -123,7 +113,7 @@ export default function ChatPage() {
                  pb-16 pt-24 w-screen`} 
                 ref={ref}>
                 { messages?.map((item)=>
-                    <SingleMessageCard host={user?.id} key={item.id} userId={item.from.id} userName={item.from.name} message={item.message} time={item.time}/>
+                    <SingleMessageCard host={user?.id} key={item.id} userId={item.sender.id} userName={item.sender.name} message={item.message}/>
                 )}
             </div>
 

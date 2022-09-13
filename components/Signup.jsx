@@ -2,19 +2,16 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
-import { useAuthContext } from '../store/Context';
 import { signUp } from '../helpers/Helpers';
 import Select from '../components/Select';
 
 
-import React from 'react'
 import Input from './Input'
 
 export default function Signup() {
 
   const router = useRouter()
 
-  const { setuser, setsession } = useAuthContext()
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -22,14 +19,10 @@ export default function Signup() {
   const [loading, setloading] = useState(false)
 
   const onSubmit = async (data) => {
-    console.log(data)
-      seterror(null)
-      setloading(true)
-      const {user, session, error} = await signUp({email: data.email, password: data.password, data: data})
-      setloading(false)
-      setuser(user)
-      setsession(session)
-      error ? seterror(error) : router.replace('/')
+    seterror(null)
+    setloading(true)
+    await signUp({email: data.email, password: data.password, metadata: data, seterror: seterror, router: router})
+    setloading(false)
   }
 
 

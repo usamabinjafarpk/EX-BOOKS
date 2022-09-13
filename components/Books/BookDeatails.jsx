@@ -2,7 +2,7 @@
 export default function BookDeatails({name, image, about, author}) {
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col px-20">
         <div className="flex justify-center items-center h-12">
             BOOK DETAILS
         </div>

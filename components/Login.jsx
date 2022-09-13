@@ -1,12 +1,10 @@
 import React from 'react'
-import Signup from './Signup'
 import Link from 'next/link'
 import Input from './Input'
 import { useState} from 'react'
-import { useAuthContext } from '../store/Context';
-import { signIn } from '../helpers/Helpers';
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form';
+import { supabase } from '../supabase'
 
 
 
@@ -16,7 +14,6 @@ export default function Login() {
 
   const router = useRouter()
 
-  const { setuser, setsession } = useAuthContext()
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -26,10 +23,8 @@ export default function Login() {
   const onSubmit = async (data) => {
       seterror(null)
       setloading(true)
-      const {user, session, error} = await signIn({email: data.email, password: data.password})
+      const {error} = await supabase.auth.signInWithPassword({email: data.email, password: data.password})
       setloading(false)
-      setuser(user)
-      setsession(session)
       error ? seterror(error) : router.replace('/')
   }
 
